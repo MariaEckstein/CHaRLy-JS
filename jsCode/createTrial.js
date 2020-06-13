@@ -1,6 +1,6 @@
 // create a trial
 
-function createTrial(block,trial) {
+function createTrial(block, trial, keysToUse, taskVer) {
 
   let thisTrial = [];
 
@@ -45,8 +45,8 @@ function createTrial(block,trial) {
           // if final trial, check if sequences make a star
 
           if (n_subtrial == 4) {
-            let firstTwoKeys = subtrialKeys.slice(0,2);
-            let lastTwoKeys = subtrialKeys.slice(2,4);
+            let firstTwoKeys = subtrialKeys.slice(0, 2);
+            let lastTwoKeys = subtrialKeys.slice(2, 4);
             let trialItems = [Number(getKeyByValue(middleRules,firstTwoKeys)),Number(getKeyByValue(middleRules,lastTwoKeys))];
             let finalItem = getKeyByValue(learningRules,trialItems);
             if (finalItem == null) trialFinalItem += `<img src="assets/goal-1.png"></img>`;
