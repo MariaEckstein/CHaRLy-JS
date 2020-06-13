@@ -21,7 +21,7 @@ implement randomization
 - set up randomizer for number/key pairs —> middle item rules
 - set up randomizer for keyboard —> 0,1,2,3 rules
 - parameterize hand/lowhigh transfer for phases, and set up randomization by mod 4
-- finish parameterizing other learning/transfer rules
+- finish adding other learning/transfer rules
 - ~~set up goal star block sequence (pure randomization of 4 stars * 3 reps each)~~
 
 graphics:
