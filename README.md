@@ -2,15 +2,15 @@
 JS version of CHaRLy. Uses jspsych.
 
 ## Code structure
-###initVariables.js:
+### initVariables.js:
 This is where experimenter parameters are set, e.g. stimuli duration, goal sequences, rules, etc. Temporarily all helper functions live here. They probably shouldn't in the future. Currently randomization sort of happens here, but probably shouldn't in the future, since they should be in their respective level (phase, block, etc)?
 
-###createPhase.js, createBlock.js, createTrial.js:
+### createPhase.js, createBlock.js, createTrial.js:
 There are 2 phases. Within each phase is a learning phase, which features all stars (out of 4) each 3 times across 12 blocks, and a testing phase with ??? blocks featuring only changed stars as goals. All blocks have 25 trials each. (Needs more implementation)
 
 Each trial is broken up into 5 subtrials where participants can press a key to advance. The stimuli of each subtrial is updated with the key pressed from the previous trial, as well as any changes to points, middle items, etc. The final subtrial shows whether a star was won, and whether points were gained.
 
-###css files:
+### css files:
 Making things pretty. <custom.css> is where the bulk of the css is going to be, e.g. nicely formatting trial-specific stimuli so they are in the right places.
 
 ## to do (as of 6/12):
