@@ -22,12 +22,12 @@ implement randomization
 - set up randomizer for keyboard —> 0,1,2,3 rules
 - parameterize hand/lowhigh transfer for phases, and set up randomization by mod 4
 - finish parameterizing other learning/transfer rules
-- --set up goal star block sequence (pure randomization of 4 stars * 3 reps each)--
+- ~~set up goal star block sequence (pure randomization of 4 stars * 3 reps each)~~
 
 graphics:
-- --make the machine the background?--
+- ~~make the machine the background?~~
 - make custom CSS for formatting trial stimuli
-  - --add goal star at top of screen of each trial--
+  - ~~add goal star at top of screen of each trial~~
   - organize trialscreen s.t. keys appear at bottom of screen in grid
   - place middle items in center of screen where machine mouth is
 
