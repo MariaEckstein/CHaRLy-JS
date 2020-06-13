@@ -14,6 +14,7 @@ var middleRules = {0: [85, 73], 1: [79, 80], 2: [73, 79], 3: [80, 85]}; // UGHGH
 var learningRules = {0: [0, 1], 1: [2, 3], 2: [1, 2], 3: [3, 0]};
 var transferRules = {0: [0, 1], 1: [2, 1], 2: [3, 2], 3: [3, 0]};
 
+var NUM_PHASES = 2;
 var NUM_BLOCKS = 12;
 var blockGoals = d3.shuffle([0,0,0,1,1,1,2,2,2,3,3,3]); // this implementation works i'm just horrible at this task
 
