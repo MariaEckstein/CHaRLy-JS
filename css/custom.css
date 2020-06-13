@@ -1,0 +1,31 @@
+/* Custom CSS for the Task */
+
+/* makes it so that images displayed initially are
+displayed in a horizontal line */
+.initial_display img{ float: left; }
+/*.initial_display{ width: 100%; }
+*/
+
+img.stim_img {
+  margin: 2.5%;
+  height: 70%;
+  width: 70%;
+}
+
+table, tr, td {
+  border-spacing: 0px;
+  text-align: center;
+}
+
+table.center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body {
+    background-image: url("../assets/starMachineC.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 35% 60%; /*width x height */
+
+}

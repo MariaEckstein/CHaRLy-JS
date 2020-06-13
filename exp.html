@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>CHaRLy (JS version)</title>
+  <script src='https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js'></script>
+  <!-- import jspsych files -->
+  <script src="jspsych/jspsych.js"></script>
+  <script src="jspsych/jspsych-categorize-html.js"></script>
+  <script src="jspsych/jspsych-categorize-image.js"></script>
+  <script src="jspsych/jspsych-html-keyboard-response.js"></script>
+  <link href="css/jspsych.css" rel="stylesheet" type="text/css"></script>
+
+  <!-- other libraries -->
+  <script src="lib/underscore-min.js"></script>
+  <script src="lib/d3.min.js"></script>
+
+  <!-- import custom plugins -->
+  <link href="css/custom.css" rel="stylesheet" type="text/css"></script>
+  <script src="jsCode/initVariables.js"></script>
+  <script src="jsCode/createTrial.js"></script>
+  <script src="jsCode/createBlock.js"></script>
+  <script src="jsCode/createPhase.js"></script>
+</head>
+
+<body>
+
+</body>
+
+<script type="text/javascript">
+
+// initialize timeline
+var timeline = [];
+
+timeline.push({timeline: createPhase()});
+
+// initialize jspsych
+jsPsych.init({
+  timeline: timeline,
+  on_finish: function() {
+    jsPsych.data.displayData('csv');
+  }
+})
+
+  /* I HAVE A PLAN!!!
+
+  TO DO: make/design:
+  function for making phase
+    --> 2 phases total, randomizing hand(LR)/transfer(HL)
+    --> random assignment of keyboard keys to numbers (?)
+    --> random assignment of middle-layer items to keys (?)
+  function for creating inner-phases/blocks
+    --> learning phase: 12 blocks per phase, 3 repetitions of each star (totally randomized)
+    --> testing phase: shorter, goal stars are with changed transfer rules
+  function for making trials
+    --> 25 trials per block; each trial takes 4 key presses; - DONE
+        each pair of keypresses triggers a tool showing up (or not)
+        trial ends with a star or dust; points are given only if star matches goal
+
+  bigger function? script for organizing blocks/trials correctly
+    --> see notes
+
+  script for ranomizing/feeding in sequences correctly
+    --> some sort of init plugin that randomizes things at the start
+
+  tutorial
+    --> combine instruction pages + some trials (not blocks)
+
+  HARD THINGS TO DO:
+  EXP MECHANISMS: PRIMARY
+  under the jspsych plugin frakmework, make each trial able to handle
+  multiple key presses before giving feedback
+    --> check jspsych page/google group Qs
+  randomize/pseudorandomize sequences correctly
+    --> check slides
+
+  GRAPHICS: SECONDARY
+  graphics -- make tools/symbols show up inside the machine??
+  make stars show up on top of the machine
+    --> check jspsych, otherwise write custom css for this
+
+  A. Order (between-subjects):
+  1. Hand (left->right, right->left) X Phase order (high->low, low->high)
+  2. 4 in total, based on subjID mod 4
+  B. Assignment of keyboard keys to numbers in the blocks above: Random
+  C. Assignment of middle-layer items to numbers in the blocks above:
+  Random
+
+
+  */
+
+</script>
+</html>
