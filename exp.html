@@ -29,10 +29,18 @@
 
 <script type="text/javascript">
 
+// defines subject ID (TEMPORARY: needs to be typed in by participant)
+var subjID = 3;
+
 // initialize timeline
 var timeline = [];
 
-timeline.push({timeline: createPhase()});
+for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
+
+  [keysToUse, taskVer] = randomizeKeysVer(n_phase, subjID)
+  timeline.push({timeline: createPhase(keysToUse, taskVer)});
+
+}
 
 // initialize jspsych
 jsPsych.init({
