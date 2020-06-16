@@ -1,6 +1,6 @@
 // create a trial
 
-function createTrial(block, trial, keysToUse, taskVer) {
+function createTrial(block, trial, taskVer, permKeys, permMiddleItems,permMiddleRules, permHighRules) {
 
   let thisTrial = [];
 
@@ -27,10 +27,11 @@ function createTrial(block, trial, keysToUse, taskVer) {
 
           let subtrialKeys = jsPsych.data.getLastTimelineData().select('key_press').values;
           console.log(`Key presses so far are ${subtrialKeys}`);
+
           // display key.png for previous press
           let lastKey = jsPsych.data.getLastTrialData().select('key_press').values[0];
           console.log(`Key press on previous subtrial ${n_subtrial} was ${lastKey}`);
-          let lastKey_i = keysToUse.indexOf(lastKey);
+          let lastKey_i = permKeys.indexOf(lastKey);
           console.log(lastKey,lastKey_i)
           trialStims += `<img src="assets/key${lastKey_i}.png"></img>`;
 
@@ -38,7 +39,7 @@ function createTrial(block, trial, keysToUse, taskVer) {
           if (n_subtrial % 2 == 0) {
             prevTwoKeys = subtrialKeys.slice(n_subtrial-2,n_subtrial);
             console.log(prevTwoKeys);
-            let foundItem = getKeyByValue(middleRules,prevTwoKeys)
+            let foundItem = getKeyByValue(permMiddleRules,prevTwoKeys)
             if (foundItem != null) trialMidItems += `<img src="assets/item${foundItem}${taskVer}.png"></img>`;
           }
 
@@ -47,8 +48,8 @@ function createTrial(block, trial, keysToUse, taskVer) {
           if (n_subtrial == 4) {
             let firstTwoKeys = subtrialKeys.slice(0, 2);
             let lastTwoKeys = subtrialKeys.slice(2, 4);
-            let trialItems = [Number(getKeyByValue(middleRules,firstTwoKeys)),Number(getKeyByValue(middleRules,lastTwoKeys))];
-            let finalItem = getKeyByValue(learningRules,trialItems);
+            let trialItems = [Number(getKeyByValue(permMiddleRules,firstTwoKeys)),Number(getKeyByValue(permMiddleRules,lastTwoKeys))];
+            let finalItem = getKeyByValue(permHighRules,trialItems);
             if (finalItem == null) trialFinalItem += `<img src="assets/goal-1.png"></img>`;
             else {
               trialFinalItem += `<img src="assets/goal${finalItem}${taskVer}.png"></img>`;
@@ -65,13 +66,15 @@ function createTrial(block, trial, keysToUse, taskVer) {
 
       choices: function() {
         if (n_subtrial == 4) return jsPsych.NO_KEYS;
-        else return keysToUse;
+        else return permKeys;
       },
       timeout_message: "<p>Took too long, now your candy gone. <br>Next Trial!</p>",
       incorect_text: "",
       corect_text: "",
       feedback_duration: 500,
-      trial_duration: TRIAL_RESPONSE_DURATION,
+      trial_duration: function() {
+        if (n_subtrial==4) return TRIAL_RESPONSE_DURATION;
+      },
 
       data: {
         block: block,
@@ -80,8 +83,8 @@ function createTrial(block, trial, keysToUse, taskVer) {
 
       on_finish: function(data) {
         let thisAnswer = data.key_press;
+
         if (thisAnswer == null) jsPsych.endCurrentTimeline();
-        data  = keysToUse.indexOf(data.key_press);
         return data;
       }
     }

@@ -1,14 +1,14 @@
 // create a block
 
-function createPhase(keysToUse, taskVer) {
+function createPhase(taskVer,keysToUse) {
 
-  thisPhase = [];
+  let thisPhase = [];
+  [permKeys, permMiddleItems,permMiddleRules, permHighRules] = randomizeKeyMidItemAssignment(keysToUse);
 
   for (n_block = 0; n_block < NUM_BLOCKS; n_block++) {
 
-    // thisPhase.push(createBlock(n_block));
-    thisPhase.push({timeline: createBlock(n_block, keysToUse, taskVer)});
-
+    thisPhase.push({
+      timeline: createBlock(n_block, taskVer, permKeys, permMiddleItems,permMiddleRules, permHighRules)});
   }
   return thisPhase;
 }

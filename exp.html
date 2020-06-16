@@ -30,15 +30,15 @@
 <script type="text/javascript">
 
 // defines subject ID (TEMPORARY: needs to be typed in by participant)
-var subjID = 3;
+var subjID = 1;
 
 // initialize timeline
 var timeline = [];
 
 for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
 
-  [keysToUse, taskVer] = randomizeKeysVer(n_phase, subjID)
-  timeline.push({timeline: createPhase(keysToUse, taskVer)});
+  [taskVer, keysToUse] = randomizeKeysVer(n_phase, subjID);
+  timeline.push({timeline: createPhase(taskVer, keysToUse)});
 
 }
 
