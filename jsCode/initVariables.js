@@ -1,14 +1,31 @@
 // closet of experiment parameters (AKA i need to organize this)
 
+var IS_DEBUG = false;
+
 // defines the 2 key sets that the machines will use
 var keys1 = [81, 87, 69, 82];
-var letters1 = ["q", "w", "e", "r"];  // Maria: I think there's something wrong with key 53 -> it matches to "5" on my keyboard, not "e"
-                                      // Amy: thanks for catching it, I fixed the mapping! 
+var letters1 = ["q", "w", "e", "r"]; // for reference
+
 var keys2 = [85, 73, 79, 80]; //
 var letters2 = ["u", "i", "o", "p"];
 
-var middleRules = {0: [0, 1], 1: [2, 3], 2: [1, 2], 3: [3, 0]};
-var highRules = {0: [0, 1], 1: [2, 3], 2: [1, 2], 3: [3, 0]};
+var LOW_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2,3,3,3]);
+var HIGH_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
+
+var NUM_PHASES = 2;
+var NUM_TRIALS = 25;
+
+if (IS_DEBUG) {
+  LOW_TRANSFER_GOALS = [1,2,3,];
+  HIGH_TRANSFER_GOALS = [1,2];
+  NUM_TRIALS = 10;
+}
+
+var TRIAL_RESPONSE_DURATION = 1000;
+var TIMEOUT_DURATION = 1000; // need to double check
+
+var blockPoints_c = 0;
+
 
 // randomize phase order and key assignment order
 function randomizeKeysVer(phase, subjID) {
@@ -65,22 +82,49 @@ function randomizeKeyMidItemAssignment(keysToUse) {
   let permKeys = d3.shuffle(keysToUse.slice()); // shuffle keys
   let permMiddleItems = d3.shuffle([0,1,2,3]); // shuffle middle items (only identified by #0-3)
 
-  console.log(permKeys);
+  if (IS_DEBUG) {permKeys = keysToUse, permMiddleItems = [0,1,2,3]}
 
-  let permMiddleRules = { // create middle rules using new key assignment
+  let middleRules = { // create middle rules using new key assignment
     0: [permKeys[0], permKeys[1]],
     1: [permKeys[2], permKeys[3]],
     2: [permKeys[1], permKeys[2]],
-    3: [permKeys[3], permKeys[0]]};
+    3: [permKeys[3], permKeys[0]]
+  };
 
-  let permHighRules = { // create middle rules using new middle item permutation
+  let lowTransferRules = Object.assign({},middleRules);
+  lowTransferRules["2"] = [permKeys[0], permKeys[2]];
+  lowTransferRules["3"] = [permKeys[3], permKeys[1]];
+
+  let highRules = { // create high rules using new middle item permutation
     0: [permMiddleItems[0], permMiddleItems[1]],
     1: [permMiddleItems[2], permMiddleItems[3]],
     2: [permMiddleItems[1], permMiddleItems[2]],
-    3: [permMiddleItems[3], permMiddleItems[0]]};
+    3: [permMiddleItems[3], permMiddleItems[0]]
+  };
 
-  return [permKeys,permMiddleItems,permMiddleRules,permHighRules];
+  let highTransferRules = Object.assign({},highRules);
+  highTransferRules["1"] = [permMiddleItems[2], permMiddleItems[1]];
+  highTransferRules["2"] = [permMiddleItems[3], permMiddleItems[2]];
+
+  return [permKeys,permMiddleItems,middleRules,highRules,lowTransferRules,highTransferRules];
 }
+
+function getKeyByValue(obj,value) {
+  console.log(value);
+  return Object.keys(obj).find(key => JSON.stringify(obj[key]) === JSON.stringify(value));
+}
+
+function displayDebugInfo(block,trial,taskVer,blockGoals) {
+  let transferVer = 'high';
+  if (taskVer == "B") transferVer = 'low';
+  let subphase = 'learning';
+  if (blockGoals.length >= 6) subphase = 'transfer';
+  return `<br>current block: ${block+1}<br>` +
+         `current trial: ${trial+1}<br>` +
+         `transfer: ${transferVer}<br>` +
+         `subphase: ${subphase}<br>`;
+}
+
 
 /*random assignment of middle-layer items to numbers in the blocks above
   --> given list of middle item represented by [0,1,2,3], shuffle this list, then
@@ -95,42 +139,3 @@ function randomizeKeyMidItemAssignment(keysToUse) {
   maybe i should write a function for this translation?
 
 */
-
-var NUM_PHASES = 2;
-var NUM_BLOCKS = 12;
-var blockGoals = d3.shuffle([0,0,0,1,1,1,2,2,2,3,3,3]); // Amy: move this to createPhase
-
-var NUM_TRIALS = 25;
-var TIMEOUT_DURATION = 1000; // need to double check
-
-var blockPoints_c = 0;
-
-// basic trial configurations
-var TRIAL_RESPONSE_DURATION = 1000;
-
-/*
-important functions
-highTransfer = highTransferStarMachine(win, lenGoalSeq = lenGoalSeq)
-lowTransfer = lowTransferStarMachine(win, lenGoalSeq = lenGoalSeq)
-
-MACHINE_TYPE = "high" // rules for creating middle items stay the same, rules for which items form stars become different
-	def getRules(self):
-		middleRules = {0: (0, 1), 1: (2, 3), 2: (1, 2), 3: (3, 0)}
-		learningRules = {0: (0, 1), 1: (2, 3), 2: (1, 2), 3: (3, 0)}
-		transferRules = {0: (0, 1), 1: (2, 1), 2: (3, 2), 3: (3, 0)}
-		return [middleRules, learningRules], [middleRules, transferRules]
-
-MACHINE_TYPE = "low" // rules for creating middle items change, rules for which items form stars stay the same
-def getRules(self):
-  middleRules = {0: (0, 1), 1: (2, 3), 2: (1, 2), 3: (3, 0)}
-  learningRules = {0: (0, 1), 1: (2, 3), 2: (1, 2), 3: (3, 0)}
-  transferRules = {0: (0, 1), 1: (2, 3), 2: (0, 2), 3: (3, 1)}
-  return [learningRules, highRules], [transferRules, highRules]
-*/
-
-function getKeyByValue(obj,value) {
-  console.log(value);
-  return Object.keys(obj).find(key => JSON.stringify(obj[key]) === JSON.stringify(value));
-  // let foundItem = Object.keys(middleRules)
-  //     .find(key => JSON.stringify(middleRules[key]) === JSON.stringify(lastTwoKeys));
-}

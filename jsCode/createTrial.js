@@ -1,6 +1,6 @@
 // create a trial
 
-function createTrial(block, trial, taskVer, permKeys, permMiddleItems,permMiddleRules, permHighRules) {
+function createTrial(block, trial, taskVer, permKeys, permMiddleItems, middleRules, highRules, blockGoals) {
 
   let thisTrial = [];
 
@@ -20,7 +20,6 @@ function createTrial(block, trial, taskVer, permKeys, permMiddleItems,permMiddle
     let subtrial = {
 
       type: "html-keyboard-response",
-
       stimulus: function() {
         goalStar = `goal star: <img src="assets/goal${thisBlockGoal}${taskVer}.png"></img>`;
         if (n_subtrial > 0) {
@@ -39,28 +38,28 @@ function createTrial(block, trial, taskVer, permKeys, permMiddleItems,permMiddle
           if (n_subtrial % 2 == 0) {
             prevTwoKeys = subtrialKeys.slice(n_subtrial-2,n_subtrial);
             console.log(prevTwoKeys);
-            let foundItem = getKeyByValue(permMiddleRules,prevTwoKeys)
+            let foundItem = getKeyByValue(middleRules,prevTwoKeys)
             if (foundItem != null) trialMidItems += `<img src="assets/item${foundItem}${taskVer}.png"></img>`;
           }
 
           // if final trial, check if sequences make a star
-
           if (n_subtrial == 4) {
             let firstTwoKeys = subtrialKeys.slice(0, 2);
             let lastTwoKeys = subtrialKeys.slice(2, 4);
-            let trialItems = [Number(getKeyByValue(permMiddleRules,firstTwoKeys)),Number(getKeyByValue(permMiddleRules,lastTwoKeys))];
-            let finalItem = getKeyByValue(permHighRules,trialItems);
+            let trialItems = [Number(getKeyByValue(middleRules,firstTwoKeys)),Number(getKeyByValue(middleRules,lastTwoKeys))];
+            let finalItem = getKeyByValue(highRules,trialItems);
             if (finalItem == null) trialFinalItem += `<img src="assets/goal-1.png"></img>`;
             else {
               trialFinalItem += `<img src="assets/goal${finalItem}${taskVer}.png"></img>`;
               if (finalItem == thisBlockGoal) blockPoints_c += 1;
             }
           }
+
           var blockPoints = `current block points: ${blockPoints_c}`;
           // use a helper function to layout all these components
-          return goalStar + "<br><br><br><br><br><br><p></p><p></p>" +
-                  trialMidItems + "<br>" + trialFinalItem + "<br>" + `current block: ${block+1}<br>` +
-                  blockPoints + "<br><br>" + trialStims ;
+          return goalStar + "<br><br>" +
+                  trialMidItems + "<br>" + trialFinalItem + "<br>" +
+                  blockPoints + "<br><br>" + trialStims + displayDebugInfo(block,trial,taskVer,blockGoals);
         }
       },
 
@@ -73,17 +72,24 @@ function createTrial(block, trial, taskVer, permKeys, permMiddleItems,permMiddle
       corect_text: "",
       feedback_duration: 500,
       trial_duration: function() {
-        if (n_subtrial==4) return TRIAL_RESPONSE_DURATION;
+        if (!IS_DEBUG) return TRIAL_RESPONSE_DURATION;
+        else {
+          if (n_subtrial==4) return TRIAL_RESPONSE_DURATION;
+        }
       },
 
       data: {
-        block: block,
-        trial: trial,
+        phase: taskVer,
+        subphase: function() {
+          if (blockGoals.length == 25) return "learning";
+          return "transfer";
+        },
+        block: block+1, // Amy is forgoing 0-indexing because MATLAB owns her
+        trial: trial+1,
       },
 
       on_finish: function(data) {
         let thisAnswer = data.key_press;
-
         if (thisAnswer == null) jsPsych.endCurrentTimeline();
         return data;
       }
