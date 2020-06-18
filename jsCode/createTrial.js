@@ -1,10 +1,8 @@
 // create a trial
 
-function createTrial(block, trial, taskVer, permKeys, permMiddleItems, middleRules, highRules, blockGoals) {
+function createTrial(subphase, block, trial, taskVer, permKeys, middleRules, highRules, blockGoal) {
 
   let thisTrial = [];
-
-  let thisBlockGoal = blockGoals[block];
 
   for (let n_subtrial = 0; n_subtrial < 5; n_subtrial++) {
 
@@ -13,37 +11,43 @@ function createTrial(block, trial, taskVer, permKeys, permMiddleItems, middleRul
     var trialStims = "<br>keys: ";
     var trialMidItems = "<br><br>middle items: ";
     var trialFinalItem = "<br>star? "
-
-
-    // var LastSubtrial = jsPsych.data.getLastTrialData();
-
+    var goalStar = `goal star: <img src="assets/goal${blockGoal}${taskVer}.png"></img>`;
+    var noAnswer = false;
     let subtrial = {
-
       type: "html-keyboard-response",
       stimulus: function() {
-        goalStar = `goal star: <img src="assets/goal${thisBlockGoal}${taskVer}.png"></img>`;
-        if (n_subtrial > 0) {
 
-          let subtrialKeys = jsPsych.data.getLastTimelineData().select('key_press').values;
-          console.log(`Key presses so far are ${subtrialKeys}`);
+        if (noAnswer) {
+          console.log("timed out @ last key press");
+          return TIMEOUT_MSG;
+        }
 
-          // display key.png for previous press
-          let lastKey = jsPsych.data.getLastTrialData().select('key_press').values[0];
-          console.log(`Key press on previous subtrial ${n_subtrial} was ${lastKey}`);
-          let lastKey_i = permKeys.indexOf(lastKey);
-          console.log(lastKey,lastKey_i)
-          trialStims += `<img src="assets/key${lastKey_i}.png"></img>`;
+        console.log(`block ${block}, trial ${trial}, subtrial ${n_subtrial}`);
 
-          // if subtrial 3 or 5 (star of), check if previous 2 keypresses made an item
-          if (n_subtrial % 2 == 0) {
-            prevTwoKeys = subtrialKeys.slice(n_subtrial-2,n_subtrial);
-            console.log(prevTwoKeys);
-            let foundItem = getKeyByValue(middleRules,prevTwoKeys)
-            if (foundItem != null) trialMidItems += `<img src="assets/item${foundItem}${taskVer}.png"></img>`;
-          }
+        let subtrialKeys = jsPsych.data.getLastTimelineData().select('key_press').values;
+        let lastKey = jsPsych.data.getLastTrialData().select('key_press').values[0];
+        let lastKey_i = permKeys.indexOf(lastKey);
+        let lastStim = `<img src="assets/key${lastKey_i}.png"></img>`;
+        let prevTwoKeys = subtrialKeys.slice(n_subtrial-2,n_subtrial);
 
-          // if final trial, check if sequences make a star
-          if (n_subtrial == 4) {
+        switch(n_subtrial) {
+          case 0:
+            return goalStar;
+          case 1:
+            trialStims += lastStim;
+            break;
+          case 2:
+            trialStims += lastStim;
+            let firstItem = getKeyByValue(middleRules,prevTwoKeys);
+            if (firstItem != null) trialMidItems += `<img src="assets/item${firstItem}${taskVer}.png"></img>`;
+            break;
+          case 3:
+            trialStims += lastStim;
+            break;
+          case 4:
+            trialStims += lastStim;
+            let secondItem = getKeyByValue(middleRules,prevTwoKeys);
+            if (secondItem != null) trialMidItems += `<img src="assets/item${secondItem}${taskVer}.png"></img>`;
             let firstTwoKeys = subtrialKeys.slice(0, 2);
             let lastTwoKeys = subtrialKeys.slice(2, 4);
             let trialItems = [Number(getKeyByValue(middleRules,firstTwoKeys)),Number(getKeyByValue(middleRules,lastTwoKeys))];
@@ -51,50 +55,44 @@ function createTrial(block, trial, taskVer, permKeys, permMiddleItems, middleRul
             if (finalItem == null) trialFinalItem += `<img src="assets/goal-1.png"></img>`;
             else {
               trialFinalItem += `<img src="assets/goal${finalItem}${taskVer}.png"></img>`;
-              if (finalItem == thisBlockGoal) blockPoints_c += 1;
+              if (finalItem == blockGoal) blockPoints_c += 1;
             }
-          }
-
-          var blockPoints = `current block points: ${blockPoints_c}`;
-          // use a helper function to layout all these components
-          return goalStar + "<br><br>" +
-                  trialMidItems + "<br>" + trialFinalItem + "<br>" +
-                  blockPoints + "<br><br>" + trialStims + displayDebugInfo(block,trial,taskVer,blockGoals);
+            break;
         }
+        var blockPoints = `current block points: ${blockPoints_c}`;
+        return goalStar + "<br><br>" +
+                trialMidItems + "<br>" + trialFinalItem + "<br>" +
+                blockPoints + "<br><br>" + trialStims + displayDebugInfo(subphase,block,trial,taskVer);
       },
-
       choices: function() {
+        if (noAnswer) return jsPsych.ALL_KEYS;
         if (n_subtrial == 4) return jsPsych.NO_KEYS;
         else return permKeys;
       },
-      timeout_message: "<p>Took too long, now your candy gone. <br>Next Trial!</p>",
-      incorect_text: "",
-      corect_text: "",
-      feedback_duration: 500,
       trial_duration: function() {
-        if (!IS_DEBUG) return TRIAL_RESPONSE_DURATION;
-        else {
-          if (n_subtrial==4) return TRIAL_RESPONSE_DURATION;
-        }
+        if (noAnswer) return null;
+        if (n_subtrial==4) return TRIAL_END_DURATION
+        return TRIAL_RESPONSE_DURATION;
       },
-
       data: {
         phase: taskVer,
-        subphase: function() {
-          if (blockGoals.length == 25) return "learning";
-          return "transfer";
-        },
-        block: block+1, // Amy is forgoing 0-indexing because MATLAB owns her
+        subphase: subphase,
+        block: block+1,
         trial: trial+1,
       },
-
       on_finish: function(data) {
+        if (noAnswer) jsPsych.endCurrentTimeline();
+
         let thisAnswer = data.key_press;
-        if (thisAnswer == null) jsPsych.endCurrentTimeline();
+        if (data.rt == null && n_subtrial < 4) {
+          console.log("too slow");
+          noAnswer = true;
+        }
         return data;
       }
     }
     thisTrial.push(subtrial);
+
   }
   return thisTrial;
 }

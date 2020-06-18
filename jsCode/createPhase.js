@@ -13,7 +13,7 @@ function createPhase(taskVer,keysToUse) {
   // add blocks to learning subphase
   for (n_block = 0; n_block < learnGoals.length; n_block++) {
     thisPhase.push({
-      timeline: createBlock(n_block, taskVer, permKeys, permMiddleItems, middleRules, highRules, learnGoals),
+      timeline: createBlock("learning", n_block, taskVer, permKeys, middleRules, highRules, learnGoals),
       phase: taskVer,
       subphase:"learning",
       block: n_block+1,
@@ -35,7 +35,7 @@ function createPhase(taskVer,keysToUse) {
 
   for (n_block = 0; n_block < transferGoals.length; n_block++) {
     thisPhase.push({
-      timeline: createBlock(n_block, taskVer, permKeys, permMiddleItems, middleRules, highRules, transferGoals),
+      timeline: createBlock("transfer", n_block, taskVer, permKeys, middleRules, highRules, transferGoals),
       phase: taskVer,
       subphase:"transfer",
       block: n_block+1,

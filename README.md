@@ -10,16 +10,16 @@ There are 2 phases. Within each phase is a learning phase, which features all st
 
 Each trial is broken up into 5 subtrials where participants can press a key to advance. The stimuli of each subtrial is updated with the key pressed from the previous trial, as well as any changes to points, middle items, etc. The final subtrial shows whether a star was won, and whether points were gained.
 
-5 trials (in the jsPsych sense) of subtrials comprise the timeline of an actual trial. 25 actual trials comprise the timeline of a block. 12 (or however many blocks) comprise the timeline of a phase. 2 phases make up the timeline of the whole experiment used to initialize jsPsych.init(). thus the overall timeline is nested, ~~and i was hoping to leverage this scoping to declare less global variables but we will see if i just made more work for myself :)~~
+5 trials (in the jsPsych sense) of subtrials comprise the timeline of an actual trial. 25 actual trials comprise the timeline of a block. 12 (or however many blocks) comprise the timeline of a phase. 2 phases make up the timeline of the whole experiment used to initialize jsPsych.init(). thus the overall timeline is nested
 
 ### css files:
 Making things pretty. <custom.css> is where the bulk of the css is going to be, e.g. nicely formatting trial-specific stimuli so they are in the right places.
 
 ## to do (as of 6/12):
 fix:
-- createTrial.js bugs: fix timeout message bug,
-- trial-initial “undefined” bug, should be goal star
-- missing stimulus value in 2nd phase
+- ~~createTrial.js bugs: fix timeout message bug~~
+- ~~trial-initial “undefined” bug, should be goal star~~
+- ~~missing stimulus value in 2nd phase~~
 
 implement randomization
 - ~~set up randomizer for number/key pairs —> middle item rules~~
@@ -28,10 +28,8 @@ implement randomization
 - ~~create transfer subphase~~
 - ~~differentiate learning/transfer subphases~~
 - ~~set up goal star block sequence (pure randomization of 4 stars * 3 reps each)~~
-- double check randomization works
+- double check randomization works (maybe I can ask maria to check lol)
 
-graphics:
-- ~~make the machine the background?~~
 - make custom CSS for formatting trial stimuli
   - ~~add goal star at top of screen of each trial~~
   - organize trialscreen s.t. keys appear at bottom of screen in grid
@@ -40,4 +38,4 @@ graphics:
 tutorials:
 - make instructions
 - make trials
-- implement tutorial mechanisms (different machine, different rules w. DFJK, etc)
+- ~~implement tutorial mechanisms (different machine, different rules w. DFJK, etc)~~

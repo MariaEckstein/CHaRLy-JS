@@ -1,31 +1,36 @@
 /* Custom CSS for the Task */
 
-/* makes it so that images displayed initially are
-displayed in a horizontal line */
-.initial_display img{ float: left; }
-/*.initial_display{ width: 100%; }
-*/
-
-img.stim_img {
-  margin: 2.5%;
-  height: 70%;
-  width: 70%;
-}
-
-table, tr, td {
-  border-spacing: 0px;
-  text-align: center;
-}
-
-table.center {
+img.starMachine {
+  display: block;
   margin-left: auto;
   margin-right: auto;
+  width: 60%;
 }
 
-body {
-    background-image: url("../assets/starMachineC.png");
+img.tutorialKeys {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 10%;
+}
+
+.continuePrompt {
+  font-size: 18px;
+}
+
+.row {
+  display: flex;
+}
+
+.column {
+  flex: 33.33%;
+  padding: 5px;
+}
+
+/* body {
+    background-image: url("../assets/starMachineA.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: 35% 60%; /*width x height */
 
-}
+} */

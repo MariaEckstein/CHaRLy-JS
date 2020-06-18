@@ -21,6 +21,8 @@
   <script src="jsCode/createTrial.js"></script>
   <script src="jsCode/createBlock.js"></script>
   <script src="jsCode/createPhase.js"></script>
+  <script src="jsCode/createInstructions.js"></script>
+  <script src="jsCode/createTutorialTrial.js"></script>
 </head>
 
 <body>
@@ -35,9 +37,14 @@ var subjID = 3;
 // initialize timeline
 var timeline = [];
 
-for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
+// add instructions/tutorial
+instructions = createInstructions();
+timeline.push({timeline:instructions,phase:"instructions"});
 
+// add experiment phases
+for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
   [taskVer, keysToUse] = randomizeKeysVer(n_phase, subjID);
+
   timeline.push({
     timeline: createPhase(taskVer, keysToUse),
     phase: taskVer,

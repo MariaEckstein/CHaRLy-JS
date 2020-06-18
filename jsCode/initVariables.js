@@ -1,6 +1,6 @@
 // closet of experiment parameters (AKA i need to organize this)
 
-var IS_DEBUG = false;
+var IS_DEBUG = true;
 
 // defines the 2 key sets that the machines will use
 var keys1 = [81, 87, 69, 82];
@@ -14,17 +14,19 @@ var HIGH_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
 
 var NUM_PHASES = 2;
 var NUM_TRIALS = 25;
+var blockPoints_c = 0;
+
+var TRIAL_RESPONSE_DURATION = 5000;
+var TRIAL_END_DURATION = 500;
+var TIMEOUT_MSG = "<p>You took too long to repsond to that last trial.<br>Please be faster in the future."+
+                  "<p><br>Press any key when you're ready to start again!</p>"
 
 if (IS_DEBUG) {
-  LOW_TRANSFER_GOALS = [1,2,3,];
-  HIGH_TRANSFER_GOALS = [1,2];
-  NUM_TRIALS = 10;
+  LOW_TRANSFER_GOALS = [1]
+  HIGH_TRANSFER_GOALS = [1];
+  NUM_TRIALS = 5;
+  var TRIAL_RESPONSE_DURATION = null;
 }
-
-var TRIAL_RESPONSE_DURATION = 1000;
-var TIMEOUT_DURATION = 1000; // need to double check
-
-var blockPoints_c = 0;
 
 
 // randomize phase order and key assignment order
@@ -110,20 +112,28 @@ function randomizeKeyMidItemAssignment(keysToUse) {
 }
 
 function getKeyByValue(obj,value) {
-  console.log(value);
+  // console.log(value);
   return Object.keys(obj).find(key => JSON.stringify(obj[key]) === JSON.stringify(value));
 }
 
-function displayDebugInfo(block,trial,taskVer,blockGoals) {
+function displayDebugInfo(subphase,block,trial,taskVer) {
   let transferVer = 'high';
   if (taskVer == "B") transferVer = 'low';
-  let subphase = 'learning';
-  if (blockGoals.length >= 6) subphase = 'transfer';
   return `<br>current block: ${block+1}<br>` +
          `current trial: ${trial+1}<br>` +
          `transfer: ${transferVer}<br>` +
          `subphase: ${subphase}<br>`;
 }
+
+var timeoutTrial = {
+  type: "html-keyboard-response",
+  stimulus: TIMEOUT_MSG,
+  choice: jsPsych.ALL_KEYS,
+  on_finish: function() {
+    jsPsych.endCurrentTimeline();
+  }
+}
+
 
 
 /*random assignment of middle-layer items to numbers in the blocks above
