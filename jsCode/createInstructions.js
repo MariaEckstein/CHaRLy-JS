@@ -92,7 +92,7 @@ function createInstructions() {
   });
   for (i = 0; i < NUM_PRACTICE_TRIALS; i++) {
     instructions.push({
-      timeline:createTrial("practice", 0, i, "T", tutorialKeys, tutorialMidRules,
+      timeline:createTrial(2, "practice", 0, 1, "T", tutorialKeys, tutorialMidRules,
                             tutorialHighRules, 0)});
   }
   instructions.push({ // introduce practice trials

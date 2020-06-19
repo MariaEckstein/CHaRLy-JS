@@ -15,6 +15,19 @@ Each trial is broken up into 5 subtrials where participants can press a key to a
 ### css files:
 Making things pretty. <custom.css> is where the bulk of the css is going to be, e.g. nicely formatting trial-specific stimuli so they are in the right places.
 
+### final output file:
+The task saves a CSV every (trial/block/phase) ??
+For each subtrial (1/4 keypresses in a trial) we obtain the following data:
+* phase: A, B, or tutorial
+* subphase: learning or transfer
+* block: block number
+* trial: trial number
+* RT: reaction time
+* key_press: what key was pressed
+Additionally, on the last subtrial:
+* final: what item the subject got (dust, the correct/incorrect star)
+* correct: whether the final item matches the block goal
+
 ## to do (as of 6/12):
 fix:
 - ~~createTrial.js bugs: fix timeout message bug~~
@@ -36,11 +49,13 @@ jspsych:
 * ~~finish the intro trials where all combos of keys lead to dust~~
 * ~~make the tutorial trials where instructions appear with walk through key presses — these could potentially be regular instruction pages~~
 * ~~make the practice trials with tutorial machine/keys/goals~~
-* make slides for new goal star
+* ~~make slides for new goal star~~
 * ~~make slides for introducing task ver A and B (different machine and keys)~~
-* page for learning -> transfer transition (?)
-* end page (?)
-* point counter is messed up
+* ~~end page (?)~~
+* ~~point counter is messed up~~
+* ~~save a CSV~~ needs testing on server
+* ~~saving correct and final item~~
+
 
 css/graphics:
 * ~~css: make goal star grid (1x1) and img.goal class~~
@@ -50,7 +65,7 @@ css/graphics:
 * ~~jspsych: make function that creates trial stimuli (goal star box, points, middle item, machine, star/dust, key grid)~~
 * ~~css: side instructions during tutorial trials~~
 * ~~doublecheck new graphic helper function on other trial types~~
-* fix weird Points text overlap
+* ~~fix weird Points text overlap~~
 * adjust real machine sizes
-* real trials: adjust middle item placement
-* real trials: star placement
+* ~~real trials: adjust middle item placement~~
+* ~~real trials: star placement~~

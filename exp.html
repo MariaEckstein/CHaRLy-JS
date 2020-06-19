@@ -24,6 +24,7 @@
   <script src="jsCode/createInstructions.js"></script>
   <script src="jsCode/createTutorialTrial.js"></script>
   <script src="jsCode/helpers.js"></script>
+  <!-- <script src="jsCode/saveData.js"></script> -->
 </head>
 
 <body>
@@ -40,17 +41,16 @@ var timeline = [];
 
 // add instructions/tutorial
 instructions = createInstructions();
-timeline.push({timeline:instructions,phase:"instructions"});
+// timeline.push({timeline:instructions,phase:"instructions"});
 
 // add experiment phases
 for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
   [taskVer, keysToUse, hand] = randomizeKeysVer(n_phase, subjID);
 
   timeline.push({
-    timeline: createPhase(taskVer, keysToUse, hand),
+    timeline: createPhase(n_phase, taskVer, keysToUse, hand),
     phase: taskVer,
   });
-
 }
 
 // initialize jspsych
@@ -60,53 +60,5 @@ jsPsych.init({
     jsPsych.data.displayData('csv');
   }
 })
-
-  /* I HAVE A PLAN!!!
-
-  TO DO: make/design:
-  function for making phase
-    --> 2 phases total, randomizing hand(LR)/transfer(HL)
-    --> random assignment of keyboard keys to numbers (?)
-    --> random assignment of middle-layer items to keys (?)
-  function for creating inner-phases/blocks
-    --> learning phase: 12 blocks per phase, 3 repetitions of each star (totally randomized)
-    --> testing phase: shorter, goal stars are with changed transfer rules
-  function for making trials
-    --> 25 trials per block; each trial takes 4 key presses; - DONE
-        each pair of keypresses triggers a tool showing up (or not)
-        trial ends with a star or dust; points are given only if star matches goal
-
-  bigger function? script for organizing blocks/trials correctly
-    --> see notes
-
-  script for ranomizing/feeding in sequences correctly
-    --> some sort of init plugin that randomizes things at the start
-
-  tutorial
-    --> combine instruction pages + some trials (not blocks)
-
-  HARD THINGS TO DO:
-  EXP MECHANISMS: PRIMARY
-  under the jspsych plugin frakmework, make each trial able to handle
-  multiple key presses before giving feedback
-    --> check jspsych page/google group Qs
-  randomize/pseudorandomize sequences correctly
-    --> check slides
-
-  GRAPHICS: SECONDARY
-  graphics -- make tools/symbols show up inside the machine??
-  make stars show up on top of the machine
-    --> check jspsych, otherwise write custom css for this
-
-  A. Order (between-subjects):
-  1. Hand (left->right, right->left) X Phase order (high->low, low->high)
-  2. 4 in total, based on subjID mod 4
-  B. Assignment of keyboard keys to numbers in the blocks above: Random
-  C. Assignment of middle-layer items to numbers in the blocks above:
-  Random
-
-
-  */
-
 </script>
 </html>

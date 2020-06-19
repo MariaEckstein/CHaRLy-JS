@@ -4,7 +4,7 @@ function drawTrialBase(taskVer, goal, keys) {
   else goal = `<div class='goalBox'><img class="goal" src="assets/goal${goal}${taskVer}.png"></img></div>`;
   var machine = `<div class="machineBox"><img class="machine"src="assets/machine${taskVer}.png"></img></div>`;
 
-  return `<div class='baseStim'>${goal}jkl;uiop${machine}${drawKeys(keys,taskVer)}</div>`;
+  return `<div class='baseStim'>${goal}${machine}${drawKeys(keys,taskVer)}</div>`;
 }
 
 function drawKeys(keys,taskVer) {
@@ -18,33 +18,27 @@ function drawKeys(keys,taskVer) {
 }
 
 function drawMidItems(middle,taskVer) {
-  var mid = "<div class='baseStim'>";
+  let mid = "<div class='baseStim'>";
+  let css = "";
+  if (taskVer == "T") css = "T";
   middle.forEach((item, i) => {
-    if (Number.isInteger(item)) mid += `<img class="mid${i}" src=assets/item${item}${taskVer}.png></img>`;
+    if (Number.isInteger(item)) mid += `<img class="mid${i}${css}" src=assets/item${item}${taskVer}.png></img>`;
   });
   return mid + "</div>";
 }
 
 function drawFinalItem(final, taskVer) {
-  if (final==null) return `<div class="finalBox"><img class="final" src="assets/goal-1.png"></img></div>`;
-  else return `<div class="finalBox"><img class="final" src="assets/goal${final}${taskVer}.png"></img></div>`;
+  let css = "";
+  if (taskVer == "T") css = "T";
+  if (final==null) return `<div class="finalBox${css}"><img class="final" src="assets/goal-1.png"></img></div>`;
+  else return `<div class="finalBox${css}"><img class="final" src="assets/goal${final}${taskVer}.png"></img></div>`;
 }
 
-
-function displayDebugInfo(subphase,block,trial,taskVer) {
-  let transferVer = 'high';
-  if (taskVer == "B") transferVer = 'low';
-  return `<br>current block: ${block+1}<br>` +
-         `current trial: ${trial+1}<br>` +
-         `transfer: ${transferVer}<br>` +
-         `subphase: ${subphase}<br>`;
-}
-
-var timeoutTrial = {
-  type: "html-keyboard-response",
-  stimulus: TIMEOUT_MSG,
-  choice: jsPsych.ALL_KEYS,
-  on_finish: function() {
-    jsPsych.endCurrentTimeline();
-  }
-}
+// function displayDebugInfo(subphase,block,trial,taskVer) {
+//   let transferVer = 'high';
+//   if (taskVer == "B") transferVer = 'low';
+//   return `<br>current block: ${block+1}<br>` +
+//          `current trial: ${trial+1}<br>` +
+//          `transfer: ${transferVer}<br>` +
+//          `subphase: ${subphase}<br>`;
+// }

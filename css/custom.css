@@ -41,6 +41,13 @@
 
 .finalBox {
   position: absolute;
+  left: 35%;
+  bottom: 27%;
+  margin: auto;
+}
+
+.finalBoxT {
+  position: absolute;
   left: 38%;
   bottom: 38%;
   margin: auto;
@@ -74,14 +81,14 @@
 }
 
 .final {
-  width: 80%;
+  width: 100%;
 }
 
 .hand {
   width: 80%;
 }
 
-.mid0 {
+.mid0T {
   position: absolute;
   top: 36%;
   right: 52%;
@@ -89,10 +96,26 @@
   height: 5%;
 }
 
-.mid1 {
+.mid1T {
   position: absolute;
   top: 36%;
   left: 52%;
+  width: 5%;
+  height: 5%;
+}
+
+.mid0 {
+  position: absolute;
+  top: 47%;
+  right: 53.5%;
+  width: 5%;
+  height: 5%;
+}
+
+.mid1 {
+  position: absolute;
+  top: 47%;
+  left: 46.5%;
   width: 5%;
   height: 5%;
 }

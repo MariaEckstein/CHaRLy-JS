@@ -9,21 +9,23 @@ var letters1 = ["q", "w", "e", "r"]; // for reference
 var keys2 = [85, 73, 79, 80]; //
 var letters2 = ["u", "i", "o", "p"];
 
-var LOW_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2,3,3,3]);
+var LOW_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
 var HIGH_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
 
 var NUM_PHASES = 2;
 var NUM_TRIALS = 25;
 var NUM_PRACTICE_TRIALS = 3;
-var blockPoints_c = 0;
+var allPoints = Array(3).fill(0);
 
+var BREAK_DURATION = 60000;
+var NEW_STAR_DURATION = 1500;
 var TRIAL_RESPONSE_DURATION = 5000;
 var TRIAL_END_DURATION = 500;
-var TIMEOUT_MSG = "<p>You took too long to repsond to that last trial.<br>Please be faster in the future."+
-                  "<p><br>Press any key when you're ready to start again!</p>"
 
 var CONTINUE = "<p class='continuePrompt'>[Press space to continue]</p>";
 var ANYKEY = "<p class='continuePrompt'>[Press any key to start]</p>";
+var TIMEOUT_MSG = "<div class='center'><p>You took too long to repsond to that last trial.<br>Please be faster in the future."+
+                  "<p><br>Press any key when you're ready to start again!</p></div>";
 
 var tutorialKeys = [68,70,74,75]; // [d,f,j,k]
 var tutorialMidRules = {
@@ -35,10 +37,10 @@ var tutorialHighRules = {
 }
 
 if (IS_DEBUG) {
-  LOW_TRANSFER_GOALS = [1]
-  HIGH_TRANSFER_GOALS = [1];
-  NUM_TRIALS = 5;
-  // var TRIAL_RESPONSE_DURATION = null;
+  LOW_TRANSFER_GOALS = [1,2]
+  HIGH_TRANSFER_GOALS = [1,2];
+  NUM_TRIALS = 10;
+  TRIAL_RESPONSE_DURATION = null;
 }
 
 // randomize phase order and key assignment order
@@ -104,7 +106,7 @@ function randomizeKeyMidItemAssignment(keysToUse) {
   let permKeys = d3.shuffle(keysToUse.slice()); // shuffle keys
   let permMiddleItems = d3.shuffle([0,1,2,3]); // shuffle middle items (only identified by #0-3)
 
-  if (IS_DEBUG) {permKeys = keysToUse, permMiddleItems = [0,1,2,3]}
+  // if (IS_DEBUG) {permKeys = keysToUse, permMiddleItems = [0,1,2,3]}
 
   let middleRules = { // create middle rules using new key assignment
     0: [permKeys[0], permKeys[1]],
