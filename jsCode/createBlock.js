@@ -3,8 +3,8 @@
 function createBlock(subphase, block, taskVer, permKeys, middleRules, highRules, blockGoals) {
 
   let thisBlock = [];
-  blockPoints_c = 0; // reset point counter
   let thisBlockGoal = blockGoals[block];
+  blockPoints_c = 0;
 
   for (n_trial = 0; n_trial < NUM_TRIALS; n_trial++) {
     thisBlock.push({

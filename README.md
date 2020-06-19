@@ -28,14 +28,29 @@ implement randomization
 - ~~create transfer subphase~~
 - ~~differentiate learning/transfer subphases~~
 - ~~set up goal star block sequence (pure randomization of 4 stars * 3 reps each)~~
-- double check randomization works (maybe I can ask maria to check lol)
+- double check randomization works
 
-- make custom CSS for formatting trial stimuli
-  - ~~add goal star at top of screen of each trial~~
-  - organize trialscreen s.t. keys appear at bottom of screen in grid
-  - place middle items in center of screen where machine mouth is
+## to do (as of 6/18):
+jspsych:
+* ~~make slides for text-only/no interaction instruction pages~~
+* ~~finish the intro trials where all combos of keys lead to dust~~
+* ~~make the tutorial trials where instructions appear with walk through key presses — these could potentially be regular instruction pages~~
+* ~~make the practice trials with tutorial machine/keys/goals~~
+* make slides for new goal star
+* ~~make slides for introducing task ver A and B (different machine and keys)~~
+* page for learning -> transfer transition (?)
+* end page (?)
+* point counter is messed up
 
-tutorials:
-- make instructions
-- make trials
-- ~~implement tutorial mechanisms (different machine, different rules w. DFJK, etc)~~
+css/graphics:
+* ~~css: make goal star grid (1x1) and img.goal class~~
+* ~~css: make keys grid (1x4 with quarter column lines invisible) and img.keys class~~
+* ~~css: make middle items and secure their placement against the star machine~~
+* ~~css: make final star/dust position relative to bottom right of star machine~~
+* ~~jspsych: make function that creates trial stimuli (goal star box, points, middle item, machine, star/dust, key grid)~~
+* ~~css: side instructions during tutorial trials~~
+* ~~doublecheck new graphic helper function on other trial types~~
+* fix weird Points text overlap
+* adjust real machine sizes
+* real trials: adjust middle item placement
+* real trials: star placement

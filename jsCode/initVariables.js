@@ -1,4 +1,4 @@
-// closet of experiment parameters (AKA i need to organize this)
+// initializes experiment parameters, randomizes key/item assignments
 
 var IS_DEBUG = true;
 
@@ -14,6 +14,7 @@ var HIGH_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
 
 var NUM_PHASES = 2;
 var NUM_TRIALS = 25;
+var NUM_PRACTICE_TRIALS = 3;
 var blockPoints_c = 0;
 
 var TRIAL_RESPONSE_DURATION = 5000;
@@ -21,13 +22,24 @@ var TRIAL_END_DURATION = 500;
 var TIMEOUT_MSG = "<p>You took too long to repsond to that last trial.<br>Please be faster in the future."+
                   "<p><br>Press any key when you're ready to start again!</p>"
 
+var CONTINUE = "<p class='continuePrompt'>[Press space to continue]</p>";
+var ANYKEY = "<p class='continuePrompt'>[Press any key to start]</p>";
+
+var tutorialKeys = [68,70,74,75]; // [d,f,j,k]
+var tutorialMidRules = {
+  0: [70, 74],
+  1: [68, 75],
+};
+var tutorialHighRules = {
+  0: [0,1],
+}
+
 if (IS_DEBUG) {
   LOW_TRANSFER_GOALS = [1]
   HIGH_TRANSFER_GOALS = [1];
   NUM_TRIALS = 5;
-  var TRIAL_RESPONSE_DURATION = null;
+  // var TRIAL_RESPONSE_DURATION = null;
 }
-
 
 // randomize phase order and key assignment order
 function randomizeKeysVer(phase, subjID) {
@@ -38,18 +50,22 @@ function randomizeKeysVer(phase, subjID) {
         case 0:
           var keysToUse = keys1;
           var taskVer = "A";
+          var hand = "left";
           break;
         case 1:
           var keysToUse = keys2;
           var taskVer = "A";
+          var hand = "right";
           break;
         case 2:
           var keysToUse = keys1;
           var taskVer = "B";
+          var hand = "left";
           break;
         case 3:
           var keysToUse = keys2;
           var taskVer = "B";
+          var hand = "right";
           break;
         }
         break;
@@ -59,23 +75,27 @@ function randomizeKeysVer(phase, subjID) {
           case 0:
             var keysToUse = keys2;
             var taskVer = "B";
+            var hand = "right";
             break;
           case 1:
             var keysToUse = keys1;
             var taskVer = "B";
+            var hand = "left";
             break;
           case 2:
             var keysToUse = keys2;
             var taskVer = "A";
+            var hand = "right";
             break;
           case 3:
             var keysToUse = keys1;
             var taskVer = "A";
+            var hand = "left";
             break;
           }
           break;
   }
-  return [taskVer, keysToUse];
+  return [taskVer, keysToUse, hand];
 }
 
 function randomizeKeyMidItemAssignment(keysToUse) {
@@ -115,37 +135,3 @@ function getKeyByValue(obj,value) {
   // console.log(value);
   return Object.keys(obj).find(key => JSON.stringify(obj[key]) === JSON.stringify(value));
 }
-
-function displayDebugInfo(subphase,block,trial,taskVer) {
-  let transferVer = 'high';
-  if (taskVer == "B") transferVer = 'low';
-  return `<br>current block: ${block+1}<br>` +
-         `current trial: ${trial+1}<br>` +
-         `transfer: ${transferVer}<br>` +
-         `subphase: ${subphase}<br>`;
-}
-
-var timeoutTrial = {
-  type: "html-keyboard-response",
-  stimulus: TIMEOUT_MSG,
-  choice: jsPsych.ALL_KEYS,
-  on_finish: function() {
-    jsPsych.endCurrentTimeline();
-  }
-}
-
-
-
-/*random assignment of middle-layer items to numbers in the blocks above
-  --> given list of middle item represented by [0,1,2,3], shuffle this list, then
-  use indices of these items s.t. the numbers in the values of learning/transfer
-  rules represent the item indices, not the items themselves.
-
-  random assignment of keyboard keys to numbers in the blocks above
-  --> given list of numeric codes, e.g. [85, 73, 79, 80], shuffle this list, then
-  use indices of these items s.t. the numbers in the values of middle items
-  represent the key indcies, not the items themselves.
-
-  maybe i should write a function for this translation?
-
-*/

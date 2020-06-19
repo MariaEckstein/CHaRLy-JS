@@ -23,6 +23,7 @@
   <script src="jsCode/createPhase.js"></script>
   <script src="jsCode/createInstructions.js"></script>
   <script src="jsCode/createTutorialTrial.js"></script>
+  <script src="jsCode/helpers.js"></script>
 </head>
 
 <body>
@@ -43,10 +44,10 @@ timeline.push({timeline:instructions,phase:"instructions"});
 
 // add experiment phases
 for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
-  [taskVer, keysToUse] = randomizeKeysVer(n_phase, subjID);
+  [taskVer, keysToUse, hand] = randomizeKeysVer(n_phase, subjID);
 
   timeline.push({
-    timeline: createPhase(taskVer, keysToUse),
+    timeline: createPhase(taskVer, keysToUse, hand),
     phase: taskVer,
   });
 

@@ -1,30 +1,145 @@
 /* Custom CSS for the Task */
 
-img.starMachine {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+/* divs */
+
+.tutorialInst {
+  position: absolute;
+  left: 5%;
+  top: 40%;
+  width: 20%;
+}
+
+.goalBox {
+  position: relative;
+  top: 10px;
+  padding: 0px;
+  margin: 0 auto;
+  width: 7%;
+  border: 2px solid black;
+}
+
+.machineBox {
+  position: relative;
+  top: 50%;
+  margin: auto;
+}
+
+.newBox {
+  position: absolute;
+  left: 0%;
+  top: 20%;
   width: 60%;
 }
 
-img.tutorialKeys {
-  display: block;
+.handBox {
+  position: absolute;
+  right: 10%;
+  top: 20%;
+  width: 40%;
+  align-content: center;
+}
+
+.finalBox {
+  position: absolute;
+  left: 38%;
+  bottom: 38%;
+  margin: auto;
+}
+
+.keyBox {
+  position: relative;
+  margin: 0 auto;
+  top: 20px;
+}
+
+/* imgs */
+.center {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.machine {
+  top: 10%;
+  left: 50%;
+  width: 33%;
+  height: 33%;
+}
+
+.goal {
+  width: 100%;
+}
+
+.final {
+  width: 80%;
+}
+
+.hand {
+  width: 80%;
+}
+
+.mid0 {
+  position: absolute;
+  top: 36%;
+  right: 52%;
+  width: 5%;
+  height: 5%;
+}
+
+.mid1 {
+  position: absolute;
+  top: 36%;
+  left: 52%;
+  width: 5%;
+  height: 5%;
+}
+
+.key { /*need to put in a box*/
+  width: 80%;
+  height: 80%;
+}
+
+/* tables */
+
+table { /*how to hide t he middle lines*/
+  align: center;
   margin-left: auto;
   margin-right: auto;
-  width: 10%;
+}
+
+.keys {
+  border: 1px solid black;
+  border-collapse: collapse;
+  empty-cells: show;
+}
+
+td {
+  border: 2px solid black;
+  height: 80px;
+  width: 60px;
+  padding: 5px;
+}
+
+/*texts*/
+
+.points {
+  font-size: 18px;
+  text-align: center;
+  width: 100%;
+  top: 13%;
+  position: absolute;
+  z-index: 1;
 }
 
 .continuePrompt {
   font-size: 18px;
-}
-
-.row {
-  display: flex;
-}
-
-.column {
-  flex: 33.33%;
-  padding: 5px;
+  text-align: center;
+  width: 100%;
+  bottom: 3%;
+  position: absolute;
 }
 
 /* body {

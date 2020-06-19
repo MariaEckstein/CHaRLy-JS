@@ -1,7 +1,17 @@
 function createPhase(taskVer,keysToUse) {
-
+  var blockPoints_c = 0;
   // create learning subphase
   let thisPhase = [];
+  if (hand == "right") letters = letters2;
+  else letters = letters1;
+  thisPhase.push({
+    type: "html-keyboard-response",
+    stimulus: "<div class='newBox'>This is the new machine: </p>"+
+              `<img class="machine" src='assets/machine${taskVer}.png'></img></div>`+
+              `<div class='handBox'>It is controlled by keys: ${letters} with the ${hand} hand, as shown below:<br>`+
+              `<img class="hand" src='assets/${hand}Hand.png'></img></div>`+ ANYKEY,
+    choices: jsPsych.ALL_KEYS,
+  });
 
   // generate randomized keys and middle items assignments, and middle and high learning and transfer rules
   [permKeys, permMiddleItems, middleRules, highRules, lowTransferRules, highTransferRules] = randomizeKeyMidItemAssignment(keysToUse);
