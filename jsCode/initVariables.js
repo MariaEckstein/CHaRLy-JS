@@ -1,6 +1,6 @@
 // initializes experiment parameters, randomizes key/item assignments
 
-var IS_DEBUG = true;
+var IS_DEBUG = false;
 
 // defines the 2 key sets that the machines will use
 var keys1 = [81, 87, 69, 82];
