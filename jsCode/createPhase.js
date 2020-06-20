@@ -14,7 +14,7 @@ function createPhase(phase, taskVer, keysToUse, hand) {
   });
 
   // generate randomized keys and middle items assignments, and middle and high learning and transfer rules
-  [permKeys, permMiddleItems, middleRules, highRules, lowTransferRules, highTransferRules] = randomizeKeyMidItemAssignment(keysToUse);
+  [permKeys, permMiddleItems, middleRules, highRules, lowTransferRules, highTransferRules] = randomizeKeyMidItemAssignment(keysToUse,taskVer);
 
   //randomize goal star order for learning subphase
   let learnGoals = d3.shuffle([0,0,0,1,1,1,2,2,2,3,3,3]);

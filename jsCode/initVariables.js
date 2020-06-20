@@ -100,35 +100,61 @@ function randomizeKeysVer(phase, subjID) {
   return [taskVer, keysToUse, hand];
 }
 
-function randomizeKeyMidItemAssignment(keysToUse) {
+function randomizeKeyMidItemAssignment(keysToUse,taskVer) {
+
   // shuffle key assignment to middle rules, and middle item assignment to high rules
+  // console.log("keys to use: "+keysToUse);
 
   let permKeys = d3.shuffle(keysToUse.slice()); // shuffle keys
+  console.log("shuffled keys: "+permKeys)
+
   let permMiddleItems = d3.shuffle([0,1,2,3]); // shuffle middle items (only identified by #0-3)
+  console.log("shuffled middle items: "+permMiddleItems);
 
-  // if (IS_DEBUG) {permKeys = keysToUse, permMiddleItems = [0,1,2,3]}
+  let permStars = d3.shuffle([0,1,2,3]);
+  console.log("shuffled stars: "+permStars);
 
-  let middleRules = { // create middle rules using new key assignment
-    0: [permKeys[0], permKeys[1]],
-    1: [permKeys[2], permKeys[3]],
-    2: [permKeys[1], permKeys[2]],
-    3: [permKeys[3], permKeys[0]]
-  };
+  let middleRules = {};
+  let highRules = {};
+
+  for (i = 0; i < 4; i++) {
+    item = permMiddleItems[i];
+    switch(i) {
+      case 0:
+        middleRules[item] = [permKeys[0], permKeys[1]];
+        highRules[permStars[i]] = [permMiddleItems[0], permMiddleItems[1]];
+        break;
+      case 1:
+        middleRules[item] = [permKeys[2], permKeys[3]];
+        highRules[permStars[i]] = [permMiddleItems[2], permMiddleItems[3]];
+        break;
+      case 2:
+        middleRules[item] = [permKeys[1], permKeys[2]];
+        highRules[permStars[i]] = [permMiddleItems[1], permMiddleItems[2]];
+        break;
+      case 3:
+        middleRules[item] = [permKeys[3], permKeys[0]];
+        highRules[permStars[i]] = [permMiddleItems[3], permMiddleItems[0]];
+        break;
+      }
+  }
+  console.log("checking middle rules:");
+  console.log(middleRules);
+
+  console.log("high rules: ");
+  console.log(highRules);
 
   let lowTransferRules = Object.assign({},middleRules);
-  lowTransferRules["2"] = [permKeys[0], permKeys[2]];
-  lowTransferRules["3"] = [permKeys[3], permKeys[1]];
-
-  let highRules = { // create high rules using new middle item permutation
-    0: [permMiddleItems[0], permMiddleItems[1]],
-    1: [permMiddleItems[2], permMiddleItems[3]],
-    2: [permMiddleItems[1], permMiddleItems[2]],
-    3: [permMiddleItems[3], permMiddleItems[0]]
-  };
+  lowTransferRules[permMiddleItems[2]] = [permKeys[0], permKeys[2]];
+  lowTransferRules[permMiddleItems[3]] = [permKeys[3], permKeys[1]];
+  console.log("low transfer rules: ");
+  console.log(lowTransferRules);
 
   let highTransferRules = Object.assign({},highRules);
-  highTransferRules["1"] = [permMiddleItems[2], permMiddleItems[1]];
-  highTransferRules["2"] = [permMiddleItems[3], permMiddleItems[2]];
+  highTransferRules[permStars[1]] = [permMiddleItems[2], permMiddleItems[1]];
+  highTransferRules[permStars[2]] = [permMiddleItems[3], permMiddleItems[2]];
+  console.log("high transfer rules: ");
+  console.log(highTransferRules)
 
   return [permKeys,permMiddleItems,middleRules,highRules,lowTransferRules,highTransferRules];
 }
