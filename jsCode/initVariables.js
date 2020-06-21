@@ -9,14 +9,15 @@ var letters1 = ["q", "w", "e", "r"]; // for reference
 var keys2 = [85, 73, 79, 80]; //
 var letters2 = ["u", "i", "o", "p"];
 
-var LOW_TRANSFER_GOALS = pseudo_randomize(3, [1, 2]);
-var HIGH_TRANSFER_GOALS = pseudo_randomize(3, [1, 2]);
-
 var NUM_PHASES = 2;
 var NUM_TRIALS = 25;
 var NUM_PRACTICE_TRIALS = 3;
 var NUM_REP_PER_LEARN_GOAL = 3;
+var NUM_REP_PER_TRANSFER_GOAL = 4;
 var allPoints = Array(3).fill(0);
+
+var LOW_TRANSFER_GOALS = pseudo_randomize(NUM_REP_PER_TRANSFER_GOAL, [1, 2]);
+var HIGH_TRANSFER_GOALS = pseudo_randomize(NUM_REP_PER_TRANSFER_GOAL, [1, 2]);
 
 var BREAK_DURATION = 60000;
 var NEW_STAR_DURATION = 1500;
