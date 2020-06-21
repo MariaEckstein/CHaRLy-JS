@@ -14,10 +14,10 @@ function createPhase(phase, taskVer, keysToUse, hand) {
   });
 
   // generate randomized keys and middle items assignments, and middle and high learning and transfer rules
-  [permKeys, permMiddleItems, middleRules, highRules, lowTransferRules, highTransferRules] = randomizeKeyMidItemAssignment(keysToUse,taskVer);
+  [permKeys, permMiddleItems, middleRules, highRules, lowTransferRules, highTransferRules] = randomizeKeyMidItemAssignment(keysToUse, taskVer);
 
   //randomize goal star order for learning subphase
-  let learnGoals = d3.shuffle([0,0,0,1,1,1,2,2,2,3,3,3]);
+  learnGoals = pseudo_randomize(NUM_REP_PER_LEARN_GOAL, [0, 1, 2, 3]);
   if (IS_DEBUG) learnGoals = [0,1,2,3];
 
   // add blocks to learning subphase
@@ -57,7 +57,8 @@ function createPhase(phase, taskVer, keysToUse, hand) {
     stimulus: function() {
       let msg = `<p>Great job! You unlocked ${allPoints[phase]} stars using the last machine.</p>`;
       if (phase == 0) msg += "<p>You will now have a 1 minute break, after which you'll be able \
-          to control a new machine</p>";
+          to control a new machine</p>"+
+          "<p>[Press any key to move on.]<p>";
       else msg += "<p>Thank you for participating! Your compensation will arrive shortly/\
                click here to receive RPP credit. Have a wonderful day!</p>";
       return `<div class="center">${msg}</div>`;

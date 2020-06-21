@@ -34,17 +34,17 @@
 <script type="text/javascript">
 
 // defines subject ID (TEMPORARY: needs to be typed in by participant)
-var subjID = 3;
+var subjID = 0;
 
 // initialize timeline
 var timeline = [];
 
 // add instructions/tutorial
 instructions = createInstructions();
-timeline.push({timeline:instructions,phase:"instructions"});
+if (IS_DEBUG==false) timeline.push({timeline:instructions,phase:"instructions"});
 
 // add experiment phases
-for (n_phase = 0; n_phase <= 0; n_phase++) {
+for (n_phase = 0; n_phase < NUM_PHASES; n_phase++) {
   [taskVer, keysToUse, hand] = randomizeKeysVer(n_phase, subjID);
 
   timeline.push({

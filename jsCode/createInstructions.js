@@ -26,7 +26,8 @@ function createInstructions() {
   instructions.push({timeline:createTutorialTrial()}); // demo
   instructions.push({ // talk about tools
     type: "html-keyboard-response",
-    stimulus: "<p class='center'>Collecting coins can be hard! Luckily, the machine uses tools"+
+    stimulus: "<p class='center'>Unfortunately, the machine only created a puff of smoke.."+
+              " Collecting coins can be hard! Luckily, the machine uses tools"+
               " when it makes coins. Seeing these tools can help you get on the right track.</p>"+
               CONTINUE,
     choices: [32],

@@ -1,6 +1,6 @@
 // initializes experiment parameters, randomizes key/item assignments
 
-var IS_DEBUG = false;
+var IS_DEBUG = true;
 
 // defines the 2 key sets that the machines will use
 var keys1 = [81, 87, 69, 82];
@@ -9,17 +9,18 @@ var letters1 = ["q", "w", "e", "r"]; // for reference
 var keys2 = [85, 73, 79, 80]; //
 var letters2 = ["u", "i", "o", "p"];
 
-var LOW_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
-var HIGH_TRANSFER_GOALS = d3.shuffle([1,1,1,2,2,2]);
+var LOW_TRANSFER_GOALS = pseudo_randomize(3, [1, 2]);
+var HIGH_TRANSFER_GOALS = pseudo_randomize(3, [1, 2]);
 
 var NUM_PHASES = 2;
 var NUM_TRIALS = 25;
 var NUM_PRACTICE_TRIALS = 3;
+var NUM_REP_PER_LEARN_GOAL = 3;
 var allPoints = Array(3).fill(0);
 
 var BREAK_DURATION = 60000;
 var NEW_STAR_DURATION = 1500;
-var TRIAL_RESPONSE_DURATION = 5000;
+var TRIAL_RESPONSE_DURATION = 2000;
 var TRIAL_END_DURATION = 500;
 
 var CONTINUE = "<p class='continuePrompt'>[Press space to continue]</p>";
@@ -40,7 +41,7 @@ if (IS_DEBUG) {
   LOW_TRANSFER_GOALS = [1,2]
   HIGH_TRANSFER_GOALS = [1,2];
   NUM_TRIALS = 10;
-  TRIAL_RESPONSE_DURATION = null;
+  // TRIAL_RESPONSE_DURATION = null;
 }
 
 // randomize phase order and key assignment order
@@ -100,7 +101,7 @@ function randomizeKeysVer(phase, subjID) {
   return [taskVer, keysToUse, hand];
 }
 
-function randomizeKeyMidItemAssignment(keysToUse,taskVer) {
+function randomizeKeyMidItemAssignment(keysToUse, taskVer) {
 
   // shuffle key assignment to middle rules, and middle item assignment to high rules
   // console.log("keys to use: "+keysToUse);
@@ -162,4 +163,28 @@ function randomizeKeyMidItemAssignment(keysToUse,taskVer) {
 function getKeyByValue(obj,value) {
   // console.log(value);
   return Object.keys(obj).find(key => JSON.stringify(obj[key]) === JSON.stringify(value));
+}
+
+
+function pseudo_randomize(n_repetitions_per_element, elements_to_be_permuted) {
+
+  // Pseudo-randomizes elements. It takes the number of repetitions per element,
+  // and the elements to be permuted and pseudorandomizes such that the same
+  // element never appears twice in a row, and all elements appear exactly once
+  // in each block of elements.
+
+  output_array = [];
+  output_array = output_array.concat(elements_to_be_permuted);
+  output_array = jsPsych.randomization.shuffle(output_array);
+  // console.log("output_array", output_array);
+  while (output_array.length < n_repetitions_per_element * elements_to_be_permuted.length) {
+    new_elements = elements_to_be_permuted;
+    new_elements = jsPsych.randomization.shuffle(new_elements);
+    // console.log("new_elements", new_elements);
+    if (output_array[output_array.length - 1] != new_elements[0]) {
+      // console.log("yes!", output_array[output_array.length - 1], new_elements[0]);
+      output_array = output_array.concat(new_elements);
+    }
+  }
+  return output_array
 }

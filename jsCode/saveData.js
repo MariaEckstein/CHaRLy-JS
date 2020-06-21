@@ -1,9 +1,8 @@
 /*Functions and variables for saving data with PHP
 Taken from https://kywch.github.io/jsPsych-in-Qualtrics/save-php/ */
 
-
 var task_name = "CHaRLy";
-var sbj_id;//jsPsych.data.getURLVariable("ID") -- won't work rn
+var sbj_id;  //jsPsych.data.getURLVariable("ID") -- won't work rn
 console.log(sbj_id);
 
 // you must put your save_data php url here.
